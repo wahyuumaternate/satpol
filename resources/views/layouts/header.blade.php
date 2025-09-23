@@ -12,8 +12,8 @@
 
             <!-- Logo -->
             <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
-                {{-- <img src="{{ asset('frontend/assets/img/logo.png') }}" alt="Logo"> --}}
-                <h1>SATPOL</h1>
+                <img src="{{ asset('logo.png') }}" alt="Logo">
+                <h1>CEKATAN</h1>
             </a>
 
             <!-- Navbar -->
