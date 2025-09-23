@@ -17,15 +17,13 @@ return new class extends Migration
             $table->string('penulis');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamp('tanggal_publish')->nullable();
-            $table->unsignedBigInteger('kategori_id')->nullable();
+            $table->foreignId('kategori_id')->nullable()->constrained('kategori')->onDelete('cascade');
             $table->text('excerpt')->nullable();
             $table->json('tags')->nullable();
             $table->integer('views')->default(0);
             $table->timestamps();
 
-            $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
             $table->index(['status', 'tanggal_publish']);
-            $table->index('slug');
         });
     }
 

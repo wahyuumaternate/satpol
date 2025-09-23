@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
@@ -12,8 +13,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategoris = Kategori::all(); // Mengambil semua kategori
-        return view('kategoris.index', compact('kategoris')); // Menampilkan kategori ke view
+        $categories = Kategori::orderBy('created_at', 'desc')->get();
+        return view('backend.kategori.index', compact('categories'));
     }
 
     /**
@@ -21,7 +22,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategoris.create');
+        return view('backend.kategori.create');
     }
 
     /**
@@ -30,12 +31,24 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255', // Validasi input
+            'nama' => 'required|string|max:255|unique:kategori,nama',
+            'deskripsi' => 'nullable|string',
+            'is_active' => 'boolean'
+        ], [
+            'nama.required' => 'Nama kategori wajib diisi.',
+            'nama.unique' => 'Nama kategori sudah ada.',
+            'nama.max' => 'Nama kategori maksimal 255 karakter.'
         ]);
 
-        Kategori::create($request->all()); // Menyimpan kategori
+        $kategori = new Kategori();
+        $kategori->nama = $request->nama;
+        $kategori->slug = Str::slug($request->nama);
+        $kategori->deskripsi = $request->deskripsi;
+        $kategori->is_active = $request->has('is_active') ? true : false;
+        $kategori->save();
 
-        return redirect()->route('kategoris.index')->with('success', 'Kategori berhasil dibuat.');
+        return redirect()->route('backend.kategori.index')
+            ->with('success', 'Kategori berhasil dibuat.');
     }
 
     /**
@@ -43,8 +56,19 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori = Kategori::findOrFail($id); // Mencari kategori berdasarkan ID
-        return view('kategoris.show', compact('kategori'));
+        try {
+            $kategori = Kategori::findOrFail($id);
+
+            // Debug: Pastikan kategori ditemukan
+            if (!$kategori) {
+                abort(404, 'Kategori tidak ditemukan');
+            }
+
+            return view('backend.kategori.show', compact('kategori'));
+        } catch (\Exception $e) {
+            return redirect()->route('backend.kategori.index')
+                ->with('error', 'Kategori tidak ditemukan.');
+        }
     }
 
     /**
@@ -52,8 +76,19 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
-        $kategori = Kategori::findOrFail($id); // Mencari kategori berdasarkan ID
-        return view('kategoris.edit', compact('kategori'));
+        try {
+            $kategori = Kategori::findOrFail($id);
+
+            // Debug: Pastikan kategori ditemukan
+            if (!$kategori) {
+                abort(404, 'Kategori tidak ditemukan');
+            }
+
+            return view('backend.kategori.edit', compact('kategori'));
+        } catch (\Exception $e) {
+            return redirect()->route('backend.kategori.index')
+                ->with('error', 'Kategori tidak ditemukan.');
+        }
     }
 
     /**
@@ -61,14 +96,31 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255', // Validasi input
-        ]);
+        try {
+            $kategori = Kategori::findOrFail($id);
 
-        $kategori = Kategori::findOrFail($id);
-        $kategori->update($request->all()); // Memperbarui kategori
+            $request->validate([
+                'nama' => 'required|string|max:255|unique:kategori,nama,' . $id,
+                'deskripsi' => 'nullable|string',
+                'is_active' => 'boolean'
+            ], [
+                'nama.required' => 'Nama kategori wajib diisi.',
+                'nama.unique' => 'Nama kategori sudah ada.',
+                'nama.max' => 'Nama kategori maksimal 255 karakter.'
+            ]);
 
-        return redirect()->route('kategoris.index')->with('success', 'Kategori berhasil diperbarui.');
+            $kategori->nama = $request->nama;
+            $kategori->slug = Str::slug($request->nama);
+            $kategori->deskripsi = $request->deskripsi;
+            $kategori->is_active = $request->has('is_active') ? true : false;
+            $kategori->save();
+
+            return redirect()->route('backend.kategori.index')
+                ->with('success', 'Kategori berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('backend.kategori.index')
+                ->with('error', 'Gagal memperbarui kategori.');
+        }
     }
 
     /**
@@ -76,9 +128,35 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $kategori = Kategori::findOrFail($id);
-        $kategori->delete(); // Menghapus kategori
+        try {
+            $kategori = Kategori::findOrFail($id);
+            $nama = $kategori->nama; // Simpan nama sebelum dihapus
+            $kategori->delete();
 
-        return redirect()->route('kategoris.index')->with('success', 'Kategori berhasil dihapus.');
+            return redirect()->route('backend.kategori.index')
+                ->with('success', "Kategori '{$nama}' berhasil dihapus.");
+        } catch (\Exception $e) {
+            return redirect()->route('backend.kategori.index')
+                ->with('error', 'Gagal menghapus kategori. Mungkin masih digunakan di data lain.');
+        }
+    }
+
+    /**
+     * Toggle status aktif kategori
+     */
+    public function toggleStatus($id)
+    {
+        try {
+            $kategori = Kategori::findOrFail($id);
+            $kategori->is_active = !$kategori->is_active;
+            $kategori->save();
+
+            $status = $kategori->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->route('backend.kategori.index')
+                ->with('success', "Kategori '{$kategori->nama}' berhasil {$status}.");
+        } catch (\Exception $e) {
+            return redirect()->route('backend.kategori.index')
+                ->with('error', 'Gagal mengubah status kategori.');
+        }
     }
 }

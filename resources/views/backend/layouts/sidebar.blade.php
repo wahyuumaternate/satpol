@@ -18,59 +18,23 @@
         </li><!-- End Profil Nav -->
 
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#program-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-clipboard-check"></i><span>Program</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="program-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Program SKPD</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End Program Nav -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#informasi-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-info-circle"></i><span>Informasi Publik</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-info-circle"></i><span>Berita</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="informasi-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="#">
-                        <i class="bi bi-circle"></i><span>Laporan Keuangan</span>
+                        <i class="bi bi-circle"></i><span>Lihat Semua Berita</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="bi bi-circle"></i><span>Laporan Kinerja</span>
+                        <i class="bi bi-circle"></i><span>Kategori Berita</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Pengadaan Barang/Jasa</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Permohonan Informasi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Perencanaan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Regulasi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Daftar Informasi Publik</span>
-                    </a>
-                </li>
+
             </ul>
         </li><!-- End Informasi Publik Nav -->
 

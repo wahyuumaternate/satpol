@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Kategori extends Model
 {
     protected $table = 'kategori';
-    protected $fillable = ['nama']; // Kolom yang dapat diisi secara massal
+    protected $fillable = ['nama', 'slug', 'deskripsi', 'is_active'];
+    protected $casts = ['is_active' => 'boolean'];
 
     // Jika kategori memiliki banyak berita (relasi one-to-many)
     public function beritas()

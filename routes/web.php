@@ -21,7 +21,26 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('/{id}/show', [OrganizationProfileController::class, 'show'])->name('backend.organization-profile.show');
     });
 
-    Route::resource('kategoris', KategoriController::class);
+    // Route Kategori - Individual
+    Route::prefix('kategori')->name('backend.kategori.')->group(function () {
+        // GET routes
+        Route::get('/', [KategoriController::class, 'index'])->name('index');
+
+        // POST routes
+        Route::post('/', [KategoriController::class, 'store'])->name('store');
+
+        // PUT/PATCH routes
+        Route::put('/{id}', [KategoriController::class, 'update'])->name('update');
+        Route::patch('/{id}', [KategoriController::class, 'update'])->name('update');
+
+        // DELETE routes
+        Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('destroy');
+
+        // Custom routes
+        Route::patch('/{id}/toggle-status', [KategoriController::class, 'toggleStatus'])->name('toggle-status');
+        Route::post('/bulk-delete', [KategoriController::class, 'bulkDelete'])->name('bulk-delete');
+        Route::patch('/bulk-status', [KategoriController::class, 'bulkStatus'])->name('bulk-status');
+    });
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

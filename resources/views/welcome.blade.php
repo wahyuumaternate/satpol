@@ -436,7 +436,7 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12 text-center">
-                    <h2 class="section-title" data-aos="fade-up">Tentang PIM SATPOL-PP</h2>
+                    <h2 class="section-title" data-aos="fade-up">Tentang WEBSITE</h2>
                     <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Penilaian Indeks Maturitas adalah
                         sistem evaluasi komprehensif untuk mengukur tingkat kematangan organisasi dalam berbagai aspek
                         pelayanan dan tata kelola</p>
@@ -661,7 +661,7 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12 text-center">
-                    <h2 class="section-title text-white" data-aos="fade-up">Manfaat dari Program PIM</h2>
+                    <h2 class="section-title text-white" data-aos="fade-up">Manfaat dari Program </h2>
                     <p class="section-subtitle text-white-50" data-aos="fade-up" data-aos-delay="100">Dampak positif
                         implementasi PIM bagi organisasi, masyarakat, dan pembangunan daerah</p>
                 </div>

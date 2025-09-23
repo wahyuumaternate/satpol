@@ -45,10 +45,6 @@
                                         <td>{{ $profile->updated_at->format('d/m/Y H:i') }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('backend.organization-profile.show', $profile->id) }}"
-                                                    class="btn btn-sm btn-info" title="Lihat">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
                                                 <a href="{{ route('backend.organization-profile.edit', $profile->id) }}"
                                                     class="btn btn-sm btn-warning" title="Edit">
                                                     <i class="bi bi-pencil"></i>
