@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\FrontendPengaduanController;
-use App\Http\Controllers\Frontend\PengaduanController;
+use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\OrganizationProfileController;
 use App\Http\Controllers\ProfileController;
@@ -25,7 +25,16 @@ Route::get('/migrate-fresh', function () {
         return 'Error: ' . $e->getMessage();
     }
 });
+Route::prefix('backend')->name('backend.')->middleware(['auth'])->group(function () {
+    // Resource route untuk pengaduan (hanya yang diperlukan)
+    Route::resource('pengaduan', PengaduanController::class)->only(['index', 'show']);
 
+    // Route tambahan untuk fungsi admin
+    Route::post('pengaduan/{id}/tanggapan', [PengaduanController::class, 'tanggapan'])->name('pengaduan.tanggapan');
+    Route::patch('pengaduan/{id}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.status');
+    Route::get('pengaduan-stats', [PengaduanController::class, 'getDashboardStats'])->name('pengaduan.stats');
+    Route::get('pengaduan-export', [PengaduanController::class, 'export'])->name('pengaduan.export');
+});
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
