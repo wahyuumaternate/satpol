@@ -1,77 +1,115 @@
 .topbar {
-    background: var(--primary-color); /* bisa diganti sesuai tema */
-    overflow: hidden;
-    height: 40px; 
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    font-size: 15px;
+  background: var(--primary-color);
+  /* bisa diganti sesuai tema */
+  overflow: hidden;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .running-text {
-    white-space: nowrap;
-    display: inline-block;
-    padding-left: 100%; /* mulai dari luar layar */
-    animation: scroll-left 12s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+  padding-left: 100%;
+  /* mulai dari luar layar */
+  animation: scroll-left 12s linear infinite;
 }
 
 @keyframes scroll-left {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Raleway",  sans-serif;
-  --nav-font: "Poppins",  sans-serif;
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Raleway", sans-serif;
+  --nav-font: "Poppins", sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #444444; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #555555; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #253900; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
-}
-
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #444444;  /* The default color of the main navmenu links */
-  --nav-hover-color: #253900; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #444444; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #253900; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --background-color: #ffffff;
+  /* Background color for the entire website, including individual sections */
+  --default-color: #444444;
+  /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #555555;
+  /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #f1c40f;
+  /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff;
+  /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff;
+  /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+/* Nav Menu Colors - Menggunakan warna CEKATAN */
+:root {
+  --nav-color: #444444;
+  /* Warna default link navigasi */
+  --nav-hover-color: #2980b9;
+  /* Warna biru CEKATAN saat hover/active */
+  --nav-mobile-background-color: #ffffff;
+  /* Background navigasi mobile */
+  --nav-dropdown-background-color: #ffffff;
+  /* Background dropdown */
+  --nav-dropdown-color: #444444;
+  /* Warna teks dropdown */
+  --nav-dropdown-hover-color: #2980b9;
+  /* Warna biru CEKATAN saat hover dropdown */
+}
+
+/* Color Presets - Diperbarui dengan warna CEKATAN */
 
 .light-background {
-  --background-color: #f7fcfc;
+  --background-color: #f6f9ff;
+  /* Background biru sangat muda */
   --surface-color: #ffffff;
 }
 
 .dark-background {
-  --background-color: #060606;
+  --background-color: #1a4377;
+  /* Biru tua/navy dari CEKATAN */
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --surface-color: #252525;
+  --surface-color: #253c5e;
+  /* Biru tua yang sedikit lebih cerah */
   --contrast-color: #ffffff;
 }
 
 .accent-background {
-  --background-color: #253900;
+  --background-color: #2980b9;
+  /* Biru utama CEKATAN */
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --surface-color: #253900;
+  --surface-color: #2980b9;
+}
+
+/* Tambahan class untuk aksen kuning/emas */
+.accent-secondary-background {
+  --background-color: #f1c40f;
+  /* Kuning/emas CEKATAN */
+  --default-color: #1a4377;
+  /* Teks biru tua untuk kontras */
+  --heading-color: #1a4377;
+  --surface-color: #f1c40f;
+}
+
+/* Tambahan class untuk aksen merah */
+.accent-tertiary-background {
+  --background-color: #d63031;
+  /* Merah CEKATAN */
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #d63031;
 }
 
 /* Smooth scroll */
@@ -833,502 +871,521 @@ section,
 --------------------------------------------------------------*/
 /* Hero Section - Complete & Fixed */
 .hero {
-    position: relative;
-    width: 100%;
-    height: 600px; /* Tingkatkan untuk gambar fashion */
-    overflow: hidden;
-    background: #f0f0f0;
-    margin-top: 0;
-    padding: 0;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  /* Tingkatkan untuk gambar fashion */
+  overflow: hidden;
+  background: #f0f0f0;
+  margin-top: 0;
+  padding: 0;
 }
 
 /* Responsive Heights - Disesuaikan untuk gambar fashion */
 @media (min-width: 1400px) {
-    .hero { height: 700px; }
+  .hero {
+    height: 700px;
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1399px) {
-    .hero { height: 650px; }
+  .hero {
+    height: 650px;
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-    .hero { height: 550px; }
+  .hero {
+    height: 550px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .hero { height: 450px; }
+  .hero {
+    height: 450px;
+  }
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-    .hero { height: 350px; }
+  .hero {
+    height: 350px;
+  }
 }
 
 @media (max-width: 575px) {
-    .hero { height: 300px; }
+  .hero {
+    height: 300px;
+  }
 }
 
 /* Hero Carousel Container */
 .hero-carousel {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Hero Slide Items */
 .hero-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .hero-slide.active {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* Images - Optimized untuk gambar fashion */
 .hero-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top; /* Fokus pada bagian atas untuk model fashion */
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* Fokus pada bagian atas untuk model fashion */
+  display: block;
 }
 
 /* Alternative positioning classes */
 .hero-slide.focus-left img {
-    object-position: left center;
+  object-position: left center;
 }
 
 .hero-slide.focus-right img {
-    object-position: right center;
+  object-position: right center;
 }
 
 .hero-slide.focus-center img {
-    object-position: center center;
+  object-position: center center;
 }
 
 .hero-slide.focus-bottom img {
-    object-position: center bottom;
+  object-position: center bottom;
 }
 
 /* Overlay untuk readability */
 .hero-slide::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.1) 0%,
-        rgba(0, 0, 0, 0.3) 100%
-    );
-    z-index: 1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.3) 100%);
+  z-index: 1;
 }
 
 /* Content Container */
 .hero-content {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 30px 40px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    max-width: 800px;
-    width: 90%;
-    display: none; /* Hidden by default */
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 30px 40px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  max-width: 800px;
+  width: 90%;
+  display: none;
+  /* Hidden by default */
 }
 
 @media (max-width: 992px) {
-    .hero-content {
-        bottom: 60px;
-        padding: 25px 30px;
-        max-width: 700px;
-    }
+  .hero-content {
+    bottom: 60px;
+    padding: 25px 30px;
+    max-width: 700px;
+  }
 }
 
 @media (max-width: 768px) {
-    .hero-content {
-        bottom: 50px;
-        padding: 20px 25px;
-        width: 95%;
-        max-width: 500px;
-    }
+  .hero-content {
+    bottom: 50px;
+    padding: 20px 25px;
+    width: 95%;
+    max-width: 500px;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-content {
-        bottom: 40px;
-        padding: 15px 20px;
-    }
+  .hero-content {
+    bottom: 40px;
+    padding: 15px 20px;
+  }
 }
 
 /* Content Typography */
 .hero-content h2 {
-    color: #fff;
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    line-height: 1.2;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  line-height: 1.2;
 }
 
 @media (max-width: 992px) {
-    .hero-content h2 {
-        font-size: 32px;
-    }
+  .hero-content h2 {
+    font-size: 32px;
+  }
 }
 
 @media (max-width: 768px) {
-    .hero-content h2 {
-        font-size: 28px;
-        margin-bottom: 12px;
-    }
+  .hero-content h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-content h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
+  .hero-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
 }
 
 .hero-content p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 25px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {
-    .hero-content p {
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
+  .hero-content p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-content p {
-        font-size: 13px;
-        margin-bottom: 15px;
-    }
+  .hero-content p {
+    font-size: 13px;
+    margin-bottom: 15px;
+  }
 }
 
 /* Button Styling */
 .hero-btn {
-    display: inline-block;
-    background: var(--accent-color, #007bff);
-    color: #fff;
-    padding: 12px 30px;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+  display: inline-block;
+  background: var(--accent-color, #007bff);
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .hero-btn:hover {
-    background: transparent;
-    border-color: var(--accent-color, #007bff);
-    color: var(--accent-color, #007bff);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  background: transparent;
+  border-color: var(--accent-color, #007bff);
+  color: var(--accent-color, #007bff);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
 }
 
 @media (max-width: 576px) {
-    .hero-btn {
-        padding: 10px 25px;
-        font-size: 12px;
-    }
+  .hero-btn {
+    padding: 10px 25px;
+    font-size: 12px;
+  }
 }
 
 /* Navigation Arrows */
 .hero-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 3;
-    backdrop-filter: blur(5px);
-    font-size: 18px;
-    user-select: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+  backdrop-filter: blur(5px);
+  font-size: 18px;
+  user-select: none;
 }
 
 .hero-nav:hover {
-    background: var(--accent-color, #007bff);
-    border-color: var(--accent-color, #007bff);
-    transform: translateY(-50%) scale(1.1);
+  background: var(--accent-color, #007bff);
+  border-color: var(--accent-color, #007bff);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .hero-nav-prev {
-    left: 20px;
+  left: 20px;
 }
 
 .hero-nav-next {
-    right: 20px;
+  right: 20px;
 }
 
 @media (max-width: 992px) {
-    .hero-nav {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
-    }
-    
-    .hero-nav-prev {
-        left: 15px;
-    }
-    
-    .hero-nav-next {
-        right: 15px;
-    }
+  .hero-nav {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+
+  .hero-nav-prev {
+    left: 15px;
+  }
+
+  .hero-nav-next {
+    right: 15px;
+  }
 }
 
 @media (max-width: 768px) {
-    .hero-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
-    }
-    
-    .hero-nav-prev {
-        left: 10px;
-    }
-    
-    .hero-nav-next {
-        right: 10px;
-    }
+  .hero-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .hero-nav-prev {
+    left: 10px;
+  }
+
+  .hero-nav-next {
+    right: 10px;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-nav {
-        width: 35px;
-        height: 35px;
-        font-size: 12px;
-    }
-    
-    .hero-nav-prev {
-        left: 8px;
-    }
-    
-    .hero-nav-next {
-        right: 8px;
-    }
+  .hero-nav {
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .hero-nav-prev {
+    left: 8px;
+  }
+
+  .hero-nav-next {
+    right: 8px;
+  }
 }
 
 /* Dots Indicators */
 .hero-indicators {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 3;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
 }
 
 .hero-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .hero-dot.active {
-    background: var(--accent-color, #007bff);
-    border-color: var(--accent-color, #007bff);
-    transform: scale(1.2);
+  background: var(--accent-color, #007bff);
+  border-color: var(--accent-color, #007bff);
+  transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
-    .hero-indicators {
-        bottom: 20px;
-        gap: 8px;
-    }
-    
-    .hero-dot {
-        width: 10px;
-        height: 10px;
-    }
+  .hero-indicators {
+    bottom: 20px;
+    gap: 8px;
+  }
+
+  .hero-dot {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 @media (max-width: 576px) {
-    .hero-indicators {
-        bottom: 15px;
-        gap: 6px;
-    }
-    
-    .hero-dot {
-        width: 8px;
-        height: 8px;
-    }
+  .hero-indicators {
+    bottom: 15px;
+    gap: 6px;
+  }
+
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+  }
 }
 
 /* Auto-play Progress Bar */
 .hero-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background: var(--accent-color, #007bff);
-    transition: width 0.1s linear;
-    z-index: 3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent-color, #007bff);
+  transition: width 0.1s linear;
+  z-index: 3;
 }
 
 @media (max-width: 576px) {
-    .hero-progress {
-        height: 2px;
-    }
+  .hero-progress {
+    height: 2px;
+  }
 }
 
 /* Content Display Rules */
 .hero-content {
-    display: none; /* Hidden by default */
+  display: none;
+  /* Hidden by default */
 }
 
 /* Show content when slide has content attribute */
-.hero-slide[data-content="true"] + .hero-content {
-    display: block;
+.hero-slide[data-content="true"]+.hero-content {
+  display: block;
 }
 
 /* Alternative: Show content for specific slides */
-.hero-slide.has-content + .hero-content {
-    display: block;
+.hero-slide.has-content+.hero-content {
+  display: block;
 }
 
 /* Smooth Transitions */
 .hero-slide {
-    transition: opacity 0.8s ease-in-out;
-    will-change: opacity;
+  transition: opacity 0.8s ease-in-out;
+  will-change: opacity;
 }
 
 .hero-slide.active {
-    opacity: 1;
+  opacity: 1;
 }
 
 .hero-slide:not(.active) {
-    opacity: 0;
+  opacity: 0;
 }
 
 /* Performance Optimizations */
 .hero-nav {
-    will-change: transform;
+  will-change: transform;
 }
 
 .hero-dot {
-    will-change: transform, background;
+  will-change: transform, background;
 }
 
 .hero-btn {
-    will-change: transform;
+  will-change: transform;
 }
 
 /* Loading State */
 .hero-slide img {
-    transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .hero-slide img:not([src]) {
-    opacity: 0;
+  opacity: 0;
 }
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-    .hero-slide,
-    .hero-nav,
-    .hero-dot,
-    .hero-btn {
-        transition: none;
-    }
+
+  .hero-slide,
+  .hero-nav,
+  .hero-dot,
+  .hero-btn {
+    transition: none;
+  }
 }
 
 /* Focus states for keyboard navigation */
 .hero-nav:focus,
 .hero-dot:focus,
 .hero-btn:focus {
-    outline: 2px solid var(--accent-color, #007bff);
-    outline-offset: 2px;
+  outline: 2px solid var(--accent-color, #007bff);
+  outline-offset: 2px;
 }
+
 /* 
 /* Print styles */
 @media print {
-    .hero {
-        height: auto;
-        min-height: 300px;
-    }
-    
-    .hero-nav,
-    .hero-indicators,
-    .hero-progress {
-        display: none;
-    }
-    
-    .hero-slide:not(.active) {
-        display: none;
-    }
-} 
+  .hero {
+    height: auto;
+    min-height: 300px;
+  }
+
+  .hero-nav,
+  .hero-indicators,
+  .hero-progress {
+    display: none;
+  }
+
+  .hero-slide:not(.active) {
+    display: none;
+  }
+}
+
 /* Auto-play Progress Bar - Smooth Version */
 .hero-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background: var(--accent-color, #007bff);
-    width: 0%;
-    transition: none; /* Remove transition untuk kontrol manual */
-    z-index: 3;
-    transform-origin: left;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent-color, #007bff);
+  width: 0%;
+  transition: none;
+  /* Remove transition untuk kontrol manual */
+  z-index: 3;
+  transform-origin: left;
 }
 
 /* Smooth animation class */
 .hero-progress.animating {
-    transition: width linear;
+  transition: width linear;
 }
 
 /* Reset animation */
 .hero-progress.reset {
-    width: 0%;
-    transition: none;
+  width: 0%;
+  transition: none;
 }
 
 @media (max-width: 576px) {
-    .hero-progress {
-        height: 2px;
-    }
+  .hero-progress {
+    height: 2px;
+  }
 }
+
 /*--------------------------------------------------------------
 # Featured Services Section
 --------------------------------------------------------------*/

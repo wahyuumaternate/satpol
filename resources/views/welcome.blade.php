@@ -2,11 +2,23 @@
 @push('styles')
     <style>
         :root {
-            --primary-color: #253900;
+            --primary-color: #2980b9;
+            /* Biru dari logo CEKATAN */
             --secondary-color: #ffffff;
-            --text-color: #333;
+            /* Putih untuk background */
+            --text-color: #333333;
+            /* Warna teks umum */
+            --text-dark: #1a4377;
+            /* Biru tua/navy dari teks "CEKATAN" */
+            --accent-color: #f1c40f;
+            /* Kuning/emas dari logo */
+            --accent-red: #d63031;
+            /* Merah dari tagline */
             --border-color: #e9ecef;
-            --gradient-primary: linear-gradient(135deg, #253900, #1a2700);
+            --gradient-primary: linear-gradient(135deg, #3498db, #1a4377);
+            /* Gradient biru */
+            --light-bg: #f6f9ff;
+            /* Background section alternatif */
         }
 
 
@@ -58,7 +70,7 @@
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--primary-color);
+            color: var(--text-dark);
         }
 
         .section-subtitle {
@@ -74,23 +86,24 @@
 
         .about-card {
             background: var(--secondary-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 30px rgba(37, 57, 0, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(41, 128, 185, 0.1);
             height: 100%;
             transition: all 0.3s ease;
         }
 
         .about-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(37, 57, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(41, 128, 185, 0.15);
+            border-color: var(--primary-color);
         }
 
         .about-icon {
             width: 80px;
             height: 80px;
-            background: var(--gradient-primary);
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -102,43 +115,41 @@
 
         /* Tujuan Section */
         .tujuan-section {
-            background: #f8fdf4;
+            background: var(--light-bg);
         }
 
         .tujuan-item {
             background: var(--secondary-color);
-            border-radius: 15px;
+            border-radius: 10px;
             padding: 30px;
             margin-bottom: 20px;
-            border-left: 5px solid var(--primary-color);
+            border-left: 4px solid var(--primary-color);
             transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(37, 57, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.08);
         }
 
         .tujuan-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 10px 40px rgba(37, 57, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(41, 128, 185, 0.12);
         }
 
         .tujuan-number {
             display: inline-flex;
-            width: 70px;
-            height: 40px;
+            width: 60px;
+            height: 36px;
             background: var(--primary-color);
             color: white;
-            border-radius: 50%;
+            border-radius: 20px;
             align-items: center;
             justify-content: center;
             font-weight: 600;
             line-height: 1;
-            /* biar teks rata tengah vertikal */
             font-size: 16px;
-            /* atur sesuai proporsi */
             margin-right: 15px;
         }
 
         .tujuan-item:hover .tujuan-number {
-            background: #1a2700;
+            background: var(--text-dark);
             transform: scale(1.1);
         }
 
@@ -149,8 +160,8 @@
 
         .perubahan-card {
             background: var(--secondary-color);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             padding: 30px;
             text-align: center;
             transition: all 0.3s ease;
@@ -160,13 +171,13 @@
         .perubahan-card:hover {
             border-color: var(--primary-color);
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(37, 57, 0, 0.1);
+            box-shadow: 0 12px 30px rgba(41, 128, 185, 0.1);
         }
 
         .perubahan-icon {
-            width: 100px;
-            height: 100px;
-            background: var(--gradient-primary);
+            width: 90px;
+            height: 90px;
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -179,7 +190,7 @@
         .perubahan-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--text-dark);
             margin-bottom: 15px;
         }
 
@@ -191,7 +202,7 @@
 
         .manfaat-item {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 10px;
             padding: 30px;
             margin-bottom: 20px;
             backdrop-filter: blur(10px);
@@ -200,7 +211,7 @@
         }
 
         .manfaat-item:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-5px);
         }
 
@@ -213,8 +224,7 @@
 
         .manfaat-item:hover .manfaat-icon {
             transform: scale(1.05) rotate(-3deg);
-            color: #f1c40f;
-            /* kuning elegan */
+            color: var(--accent-color);
         }
 
 
@@ -227,26 +237,28 @@
 
         /* Berita Section */
         .berita-section {
-            background: #f8fdf4;
+            background: var(--light-bg);
         }
 
         .berita-card {
             background: var(--secondary-color);
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(37, 57, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.08);
             transition: all 0.3s ease;
             height: 100%;
+            border: 1px solid var(--border-color);
         }
 
         .berita-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(37, 57, 0, 0.15);
+            box-shadow: 0 12px 30px rgba(41, 128, 185, 0.12);
+            border-color: var(--primary-color);
         }
 
         .berita-image {
             height: 200px;
-            background: var(--gradient-primary);
+            background: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -273,7 +285,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 10px;
-            color: var(--text-color);
+            color: var(--text-dark);
         }
 
         .berita-excerpt {
@@ -295,24 +307,25 @@
         }
 
         .btn-read-more:hover {
-            color: #1a2700;
+            color: var(--text-dark);
             gap: 10px;
         }
 
         /* Statistics Cards */
         .stats-card {
             background: var(--secondary-color);
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(37, 57, 0, 0.08);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.08);
             transition: all 0.3s ease;
         }
 
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(37, 57, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(41, 128, 185, 0.15);
+            border-color: var(--primary-color);
         }
 
         .stats-number {
@@ -334,6 +347,7 @@
         /* Button Styles */
         .btn {
             transition: all 0.3s ease;
+            border-radius: 5px;
         }
 
         .btn-primary {
@@ -343,11 +357,25 @@
         }
 
         .btn-primary:hover {
-            background: #1a2700;
-            border-color: #1a2700;
+            background: var(--text-dark);
+            border-color: var(--text-dark);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 57, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(26, 67, 119, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e67e22;
+            border-color: #e67e22;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
         }
 
         /* Loading animation */

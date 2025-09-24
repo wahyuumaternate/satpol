@@ -36,7 +36,9 @@
     @include('layouts.header')
     <main class="main">
 
-        @include('layouts.hero')
+        @if (Request::is('/'))
+            @include('layouts.hero')
+        @endif
 
         @yield('main')
     </main>
@@ -47,9 +49,8 @@
 
                 <!-- Kolom 1: Logo -->
                 <div class="col-lg-3 col-md-6 footer-logo">
-                    <a href="{{ url('/') }}" class="logo d-flex align-items-center">
-                        <img src="{{ asset('frontend/assets/img/logo.png') }}" alt="Logo" style="height:60px;">
-                    </a>
+                    <img src="{{ asset('logo.png') }}" alt="Logo" style="height:200px;">
+
                 </div>
 
                 <!-- Kolom 2: Sosial Media -->

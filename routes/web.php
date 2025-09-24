@@ -1,12 +1,24 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendPengaduanController;
+use App\Http\Controllers\Frontend\PengaduanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\OrganizationProfileController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/migrate-fresh', function () {
+
+    Artisan::call('migrate:fresh', [
+        '--seed' => true, // tambahkan kalau ingin langsung menjalankan seeder
+    ]);
+
+    return 'Migrate fresh berhasil dijalankan!';
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -48,4 +60,46 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Frontend Routes untuk Pengaduan
+|--------------------------------------------------------------------------
+*/
+
+// Route publik (tidak perlu login)
+// Form pengaduan
+Route::get('/pengaduan/form', [FrontendPengaduanController::class, 'form'])
+    ->name('pengaduan.form');
+
+// API untuk mendapatkan kelurahan berdasarkan kecamatan
+Route::post('/pengaduan/get-kelurahan', [FrontendPengaduanController::class, 'getKelurahan'])
+    ->name('pengaduan.get-kelurahan');
+
+// Halaman cek status
+Route::get('/pengaduan/cek-status', [FrontendPengaduanController::class, 'cekStatus'])
+    ->name('pengaduan.cek-status');
+
+// Lihat riwayat pengaduan
+Route::get('/pengaduan/history', [FrontendPengaduanController::class, 'history'])
+    ->name('pengaduan.history');
+
+// Rute untuk Masyarakat (perlu login dan role masyarakat)
+Route::middleware(['auth', 'role:masyarakat'])->group(function () {
+    // Simpan pengaduan baru
+    Route::post('/pengaduan/store', [FrontendPengaduanController::class, 'store'])
+        ->name('pengaduan.store');
+
+    // Daftar pengaduan milik user sendiri
+    Route::get('/pengaduan/list', [FrontendPengaduanController::class, 'list'])
+        ->name('pengaduan.list');
+
+    // Detail pengaduan milik sendiri
+    Route::get('/pengaduan/{id}', [FrontendPengaduanController::class, 'detail'])
+        ->middleware('own.complaint')
+        ->name('pengaduan.detail');
+
+    // Proses pengecekan status
+    Route::post('/pengaduan/proses-status', [FrontendPengaduanController::class, 'prosesStatus'])
+        ->name('pengaduan.proses-status');
+});
 require __DIR__ . '/auth.php';
