@@ -29,14 +29,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123')
         ]);
 
-        // Seed Kecamatan di Kota Ternate
+        // Seed Kecamatan di Kota Ternate (8 Kecamatan)
         $kecamatanData = [
             [
-                'nama' => 'Kecamatan Pulau Ternate',
-                'kode' => 'TER001'
+                'nama' => 'Kecamatan Ternate Barat',
+                'kode' => 'TER005'
             ],
             [
-                'nama' => 'Kecamatan Ternate Utara',
+                'nama' => 'Kecamatan Ternate Selatan',
                 'kode' => 'TER002'
             ],
             [
@@ -44,20 +44,25 @@ class DatabaseSeeder extends Seeder
                 'kode' => 'TER003'
             ],
             [
-                'nama' => 'Kecamatan Ternate Selatan',
+                'nama' => 'Kecamatan Ternate Utara',
                 'kode' => 'TER004'
             ],
+
             [
-                'nama' => 'Kecamatan Moti',
-                'kode' => 'TER005'
-            ],
-            [
-                'nama' => 'Kecamatan Pulau Batang Dua',
-                'kode' => 'TER006'
+                'nama' => 'Kecamatan Pulau Ternate',
+                'kode' => 'TER001'
             ],
             [
                 'nama' => 'Kecamatan Pulau Hiri',
+                'kode' => 'TER006'
+            ],
+            [
+                'nama' => 'Kecamatan Pulau Moti',
                 'kode' => 'TER007'
+            ],
+            [
+                'nama' => 'Kecamatan Pulau Batang Dua',
+                'kode' => 'TER008'
             ],
         ];
 
@@ -67,109 +72,328 @@ class DatabaseSeeder extends Seeder
 
         // Seed Kelurahan di Kota Ternate
         $kelurahanData = [
-            // Kelurahan di Kecamatan Pulau Ternate
+            // 1. Kelurahan di Kecamatan Pulau Ternate
+
             [
                 'kecamatan_id' => 1,
-                'nama' => 'Kelurahan Bastiong',
+                'nama' => 'Akehuda',
+                'kode' => 'AKH001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Dorari Isa',
+                'kode' => 'DOR001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Foramadiahi',
+                'kode' => 'FOR001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Kasturian',
+                'kode' => 'KAS001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Kulaba',
+                'kode' => 'KUL001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Salero',
+                'kode' => 'SAL001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Sango',
+                'kode' => 'SAN001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Tabam',
+                'kode' => 'TAB001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Aftadur',
+                'kode' => 'AFT001'
+            ],
+            [
+                'kecamatan_id' => 1,
+                'nama' => 'Tarau',
+                'kode' => 'TAR001'
+            ],
+
+            // 2. Kelurahan di Kecamatan Ternate Selatan
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Bastiong',
+                'kode' => 'BAS001'
+            ],
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Bastiong Karance',
+                'kode' => 'BSK001'
+            ],
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Bastiong Talangame',
                 'kode' => 'BST001'
             ],
             [
-                'kecamatan_id' => 1,
-                'nama' => 'Kelurahan Kalumata',
-                'kode' => 'KLM001'
-            ],
-
-            // Kelurahan di Kecamatan Ternate Utara
-            [
                 'kecamatan_id' => 2,
-                'nama' => 'Kelurahan Dufa-dufa',
-                'kode' => 'DFD001'
+                'nama' => 'Kalumata',
+                'kode' => 'KAL001'
             ],
             [
                 'kecamatan_id' => 2,
-                'nama' => 'Kelurahan Sangaji',
-                'kode' => 'SGJ001'
+                'nama' => 'Kayu Merah',
+                'kode' => 'KAY001'
             ],
             [
                 'kecamatan_id' => 2,
-                'nama' => 'Kelurahan Toboleu',
-                'kode' => 'TBL001'
+                'nama' => 'Mangga Dua',
+                'kode' => 'MAN001'
+            ],
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Mangga Dua Utara',
+                'kode' => 'MDU001'
+            ],
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Toboko',
+                'kode' => 'TOBK001'
+            ],
+            [
+                'kecamatan_id' => 2,
+                'nama' => 'Ubo-Ubo',
+                'kode' => 'UBO001'
             ],
 
-            // Kelurahan di Kecamatan Ternate Tengah
+            // 3. Kelurahan di Kecamatan Ternate Tengah
             [
                 'kecamatan_id' => 3,
-                'nama' => 'Kelurahan Gamalama',
-                'kode' => 'GML001'
+                'nama' => 'Gamalama',
+                'kode' => 'GAM001'
             ],
             [
                 'kecamatan_id' => 3,
-                'nama' => 'Kelurahan Makassar',
-                'kode' => 'MKS001'
+                'nama' => 'Kampung Makassar',
+                'kode' => 'KMP001'
             ],
             [
                 'kecamatan_id' => 3,
-                'nama' => 'Kelurahan Marikurubu',
-                'kode' => 'MRK001'
+                'nama' => 'Kota Baru',
+                'kode' => 'KOT001'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Marikurubu',
+                'kode' => 'MAR001'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Mujahidin',
+                'kode' => 'MUJ001'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Santiong',
+                'kode' => 'SAN002'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Stadion',
+                'kode' => 'STA001'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Takoma',
+                'kode' => 'TAK001'
+            ],
+            [
+                'kecamatan_id' => 3,
+                'nama' => 'Tanah Tinggi',
+                'kode' => 'TAN001'
             ],
 
-            // Kelurahan di Kecamatan Ternate Selatan
+            // 4. Kelurahan di Kecamatan Ternate Utara
             [
                 'kecamatan_id' => 4,
-                'nama' => 'Kelurahan Fitu',
-                'kode' => 'FIT001'
+                'nama' => 'Dufa-Dufa',
+                'kode' => 'DUF001'
             ],
             [
                 'kecamatan_id' => 4,
-                'nama' => 'Kelurahan Gambesi',
-                'kode' => 'GBS001'
+                'nama' => 'Sangaji',
+                'kode' => 'SAN003'
             ],
             [
                 'kecamatan_id' => 4,
-                'nama' => 'Kelurahan Kayu Merah',
-                'kode' => 'KYM001'
+                'nama' => 'Sangaji Utara',
+                'kode' => 'SAU001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Soa',
+                'kode' => 'SOA001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Soa Sio',
+                'kode' => 'SOS001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Tafure',
+                'kode' => 'TAF001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Ternate Tengah',
+                'kode' => 'TET001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Toboleu',
+                'kode' => 'TOB001'
+            ],
+            [
+                'kecamatan_id' => 4,
+                'nama' => 'Salahuddin',
+                'kode' => 'SALH001'
             ],
 
-            // Kelurahan di Kecamatan Moti
+            // 5. Kelurahan di Kecamatan Ternate Barat
             [
                 'kecamatan_id' => 5,
-                'nama' => 'Kelurahan Moti',
-                'kode' => 'MOT001'
+                'nama' => 'Bula',
+                'kode' => 'BUL001'
             ],
             [
                 'kecamatan_id' => 5,
-                'nama' => 'Kelurahan Takofi',
-                'kode' => 'TKF001'
+                'nama' => 'Jambula',
+                'kode' => 'JAM001'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Kastela',
+                'kode' => 'KAS002'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Loto',
+                'kode' => 'LOT001'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Sulamadaha',
+                'kode' => 'SUL001'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Takome',
+                'kode' => 'TAK002'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Tobololo',
+                'kode' => 'TOB002'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Togafu',
+                'kode' => 'TOG001'
+            ],
+            [
+                'kecamatan_id' => 5,
+                'nama' => 'Rua',
+                'kode' => 'RUA001'
             ],
 
-            // Kelurahan di Kecamatan Pulau Batang Dua
+            // 6. Kelurahan di Kecamatan Pulau Hiri
             [
                 'kecamatan_id' => 6,
-                'nama' => 'Kelurahan Mayau',
+                'nama' => 'Dorpedu',
+                'kode' => 'DOR002'
+            ],
+            [
+                'kecamatan_id' => 6,
+                'nama' => 'Faudu',
+                'kode' => 'FAU001'
+            ],
+            [
+                'kecamatan_id' => 6,
+                'nama' => 'Golobe',
+                'kode' => 'GOL001'
+            ],
+            [
+                'kecamatan_id' => 6,
+                'nama' => 'Tomajiko',
+                'kode' => 'TOM001'
+            ],
+
+            // 7. Kelurahan di Kecamatan Pulau Moti
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Figur',
+                'kode' => 'FIG001'
+            ],
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Kota Moti',
+                'kode' => 'KOM001'
+            ],
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Tafaga',
+                'kode' => 'TAF002'
+            ],
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Tafamutu',
+                'kode' => 'TAF003'
+            ],
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Tadenas',
+                'kode' => 'TAD001'
+            ],
+            [
+                'kecamatan_id' => 7,
+                'nama' => 'Takofi',
+                'kode' => 'TAK003'
+            ],
+
+            // 8. Kelurahan di Kecamatan Pulau Batang Dua
+            [
+                'kecamatan_id' => 8,
+                'nama' => 'Guraping',
+                'kode' => 'GUR001'
+            ],
+            [
+                'kecamatan_id' => 8,
+                'nama' => 'Mano',
+                'kode' => 'MAN002'
+            ],
+            [
+                'kecamatan_id' => 8,
+                'nama' => 'Mayau',
                 'kode' => 'MAY001'
             ],
             [
-                'kecamatan_id' => 6,
-                'nama' => 'Kelurahan Tifure',
-                'kode' => 'TFR001'
-            ],
-
-            // Kelurahan di Kecamatan Pulau Hiri
-            [
-                'kecamatan_id' => 7,
-                'nama' => 'Kelurahan Togolobe',
-                'kode' => 'TGL001'
-            ],
-            [
-                'kecamatan_id' => 7,
-                'nama' => 'Kelurahan Dorpedu',
-                'kode' => 'DRP001'
+                'kecamatan_id' => 8,
+                'nama' => 'Tifure',
+                'kode' => 'TIF001'
             ],
         ];
 
         foreach ($kelurahanData as $data) {
             Kelurahan::create($data);
         }
+
 
         // Seed contoh pengaduan
         $pengaduanData = [
