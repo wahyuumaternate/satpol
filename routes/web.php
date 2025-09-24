@@ -13,12 +13,17 @@ Route::get('/', function () {
 });
 
 Route::get('/migrate-fresh', function () {
+    try {
+        $output = '';
+        Artisan::call('migrate:fresh', [
+            '--seed' => true,
+            '--force' => true, // Tambahkan force untuk menjalankan di production
+        ], $output);
 
-    Artisan::call('migrate:fresh', [
-        '--seed' => true, // tambahkan kalau ingin langsung menjalankan seeder
-    ]);
-
-    return 'Migrate fresh berhasil dijalankan!';
+        return 'Migrate fresh berhasil dijalankan! <br><pre>' . Artisan::output() . '</pre>';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
