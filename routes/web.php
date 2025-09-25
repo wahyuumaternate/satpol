@@ -99,7 +99,7 @@ Route::get('/pengaduan/history', [FrontendPengaduanController::class, 'history']
     ->name('pengaduan.history');
 
 // Rute untuk Masyarakat (perlu login dan role masyarakat)
-Route::middleware(['auth', 'role:masyarakat'])->group(function () {
+Route::middleware(['auth', 'role:masyarakat', 'verified'])->group(function () {
     // Simpan pengaduan baru
     Route::post('/pengaduan/store', [FrontendPengaduanController::class, 'store'])
         ->name('pengaduan.store');
@@ -118,7 +118,7 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
         ->name('pengaduan.proses-status');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard Masyarakat
     Route::prefix('masyarakat')->name('masyarakat.')->group(function () {
@@ -153,7 +153,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export/data', [MasyarakatController::class, 'export'])->name('export');
         });
 
-    
+
 
         // API Routes untuk AJAX calls
         Route::prefix('api')->name('api.')->group(function () {

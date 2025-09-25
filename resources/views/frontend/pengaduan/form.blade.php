@@ -670,6 +670,14 @@
                                     @if (Auth::user()->nomor_telepon)
                                         <p class="mb-2"><strong>Nomor Telepon:</strong> {{ Auth::user()->nomor_telepon }}</p>
                                     @endif
+                                    <p class="mb-0">
+                                        <strong>Lokasi:</strong>
+                                        @if (Auth::user()->kelurahan)
+                                            {{ Auth::user()->kelurahan->nama }}, {{ Auth::user()->kelurahan->kecamatan->nama }}
+                                        @else
+                                            <span class="text-warning">Belum terdaftar</span>
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                             <div class="alert alert-info mt-3 mb-0">
@@ -684,10 +692,10 @@
                             <p class="mb-4">Anda dapat melihat formulir pengaduan, namun untuk mengirimkan pengaduan Anda
                                 perlu login terlebih dahulu untuk keamanan dan pelacakan status.</p>
                             <div>
-                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg me-3">
+                                <a href="{{ route('login') }}" class="btn btn-primary btn me-3">
                                     <i class="bi bi-box-arrow-in-right me-2"></i> Login
                                 </a>
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg">
+                                <a href="{{ route('register') }}" class="btn btn-outline-primary btn">
                                     <i class="bi bi-person-plus me-2"></i> Daftar
                                 </a>
                             </div>
@@ -712,42 +720,110 @@
 
                             {{-- Lokasi Pengaduan Section --}}
                             <div class="form-section-header">
-                                <h4><i class="bi bi-geo-alt-fill"></i> Lokasi Pengaduan</h4>
+                                <h4 class="text-white"><i class="bi bi-geo-alt-fill"></i> Lokasi Pengaduan</h4>
                             </div>
 
+                            @auth
+                                @if (Auth::user()->kelurahan_id)
+                                    <div class="location-info-card">
+                                        <h5><i class="bi bi-geo-fill"></i> Lokasi Domisili Anda</h5>
+                                        <div class="d-flex flex-wrap gap-2 mb-2">
+                                            <div class="location-badge">
+                                                <i class="bi bi-map"></i> Kecamatan:
+                                                {{ Auth::user()->kelurahan->kecamatan->nama }}
+                                            </div>
+                                            <div class="location-badge">
+                                                <i class="bi bi-geo-alt"></i> Kelurahan: {{ Auth::user()->kelurahan->nama }}
+                                            </div>
+                                        </div>
+                                        <div class="form-text mb-0">
+                                            <i class="bi bi-info-circle"></i> Lokasi di atas akan digunakan sebagai domisili
+                                            pelapor. Untuk lokasi kejadian, silakan lengkapi detail di bawah ini.
+                                        </div>
+
+                                        <!-- Hidden inputs for kelurahan and kecamatan IDs -->
+                                        <input type="hidden" name="kecamatan_id"
+                                            value="{{ Auth::user()->kelurahan->kecamatan->id }}">
+                                        <input type="hidden" name="kelurahan_id" value="{{ Auth::user()->kelurahan_id }}">
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning mb-4">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        <strong>Perhatian!</strong> Data kelurahan Anda belum terdaftar. Silakan lengkapi profil
+                                        Anda terlebih dahulu atau pilih kelurahan secara manual.
+                                    </div>
+
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-6">
+                                            <label for="kecamatan_id" class="form-label">
+                                                Kecamatan <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-select @error('kecamatan_id') is-invalid @enderror"
+                                                id="kecamatan_id" name="kecamatan_id" required>
+                                                <option value="">Pilih Kecamatan</option>
+                                                @foreach ($kecamatans as $kecamatan)
+                                                    <option value="{{ $kecamatan->id }}"
+                                                        {{ old('kecamatan_id') == $kecamatan->id ? 'selected' : '' }}>
+                                                        {{ $kecamatan->nama }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('kecamatan_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="kelurahan_id" class="form-label">
+                                                Kelurahan <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-select @error('kelurahan_id') is-invalid @enderror"
+                                                id="kelurahan_id" name="kelurahan_id" required>
+                                                <option value="">Pilih Kelurahan</option>
+                                            </select>
+                                            @error('kelurahan_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <label for="kecamatan_id" class="form-label">
+                                            Kecamatan <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select @error('kecamatan_id') is-invalid @enderror"
+                                            id="kecamatan_id" name="kecamatan_id" required>
+                                            <option value="">Pilih Kecamatan</option>
+                                            @foreach ($kecamatans as $kecamatan)
+                                                <option value="{{ $kecamatan->id }}"
+                                                    {{ old('kecamatan_id') == $kecamatan->id ? 'selected' : '' }}>
+                                                    {{ $kecamatan->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('kecamatan_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="kelurahan_id" class="form-label">
+                                            Kelurahan <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select @error('kelurahan_id') is-invalid @enderror"
+                                            id="kelurahan_id" name="kelurahan_id" required>
+                                            <option value="">Pilih Kelurahan</option>
+                                        </select>
+                                        @error('kelurahan_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endauth
+
                             <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label for="kecamatan_id" class="form-label">
-                                        Kecamatan <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-select @error('kecamatan_id') is-invalid @enderror"
-                                        id="kecamatan_id" name="kecamatan_id" required>
-                                        <option value="">Pilih Kecamatan</option>
-                                        @foreach ($kecamatans as $kecamatan)
-                                            <option value="{{ $kecamatan->id }}"
-                                                {{ old('kecamatan_id') == $kecamatan->id ? 'selected' : '' }}>
-                                                {{ $kecamatan->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('kecamatan_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="kelurahan_id" class="form-label">
-                                        Kelurahan <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-select @error('kelurahan_id') is-invalid @enderror"
-                                        id="kelurahan_id" name="kelurahan_id" required>
-                                        <option value="">Pilih Kelurahan</option>
-                                    </select>
-                                    @error('kelurahan_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
                                 <div class="col-12">
                                     <label for="lokasi_kejadian" class="form-label">
                                         Detail Lokasi <span class="text-danger">*</span>
@@ -777,7 +853,8 @@
 
                             {{-- Detail Pengaduan Section --}}
                             <div class="form-section-header">
-                                <h4><i class="bi bi-exclamation-triangle-fill"></i> Detail Pengaduan</h4>
+                                <h4 class="text-white"><i class="bi bi-exclamation-triangle-fill"></i> Detail Pengaduan
+                                </h4>
                             </div>
 
                             <div class="row g-4">

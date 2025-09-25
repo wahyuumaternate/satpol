@@ -223,6 +223,30 @@
                 margin-top: 20px;
             }
         }
+
+        .input-group select {
+            width: 100%;
+            padding: 14px;
+            padding-left: 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background-color: var(--input-bg);
+        }
+
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 203, 5, 0.2);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            top: 42px;
+            color: #999;
+        }
     </style>
 </head>
 
@@ -269,6 +293,46 @@
                     @enderror
                 </div>
 
+                <!-- Nomor Telepon -->
+                <div class="input-group">
+                    <label for="nomor_telepon">Nomor Telepon</label>
+                    <i class="fas fa-phone-alt"></i>
+                    <input id="nomor_telepon" type="tel" name="nomor_telepon" value="{{ old('nomor_telepon') }}"
+                        required autocomplete="tel" placeholder="Masukkan nomor telepon" pattern="^[0-9]{10,15}$"
+                        title="Nomor telepon harus terdiri dari 10 hingga 15 digit angka">
+                    @error('nomor_telepon')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Kecamatan Dropdown -->
+                <div class="input-group">
+                    <label for="kecamatan">Kecamatan</label>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <select id="kecamatan" name="kecamatan_id" required>
+                        <option value="">Pilih Kecamatan</option>
+                        @foreach ($kecamatans as $kecamatan)
+                            <option value="{{ $kecamatan->id }}">{{ $kecamatan->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('kecamatan_id')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Kelurahan Dropdown -->
+                <div class="input-group">
+                    <label for="kelurahan">Kelurahan</label>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <select id="kelurahan" name="kelurahan_id" required disabled>
+                        <option value="">Pilih Kelurahan</option>
+                    </select>
+                    @error('kelurahan_id')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
                 <!-- Password -->
                 <div class="input-group">
                     <label for="password">Password</label>
@@ -301,6 +365,80 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const kecamatanSelect = document.getElementById('kecamatan');
+            const kelurahanSelect = document.getElementById('kelurahan');
+
+            if (kecamatanSelect && kelurahanSelect) {
+                kecamatanSelect.addEventListener('change', function() {
+                    const kecamatanId = this.value;
+
+                    // Reset kelurahan dropdown and disable it initially
+                    kelurahanSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';
+                    kelurahanSelect.disabled = true; // Keep the dropdown disabled until data is fetched
+
+                    if (kecamatanId) {
+                        // Show loading state
+                        kelurahanSelect.innerHTML = '<option value="">Loading...</option>';
+
+                        // Fetch kelurahan based on kecamatan_id
+                        fetch("{{ route('pengaduan.get-kelurahan') }}", {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    kecamatan_id: kecamatanId
+                                })
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to fetch kelurahan data');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                kelurahanSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';
+                                if (data && Array.isArray(data)) {
+                                    data.forEach(kelurahan => {
+                                        const option = document.createElement('option');
+                                        option.value = kelurahan.id;
+                                        option.textContent = kelurahan.nama;
+                                        kelurahanSelect.appendChild(option);
+                                    });
+
+                                    // Enable kelurahan dropdown once data is fetched
+                                    kelurahanSelect.disabled = false;
+
+                                    // Set kelurahan if there is an old value
+                                    @if (old('kelurahan_id'))
+                                        kelurahanSelect.value = "{{ old('kelurahan_id') }}";
+                                    @endif
+                                } else {
+                                    kelurahanSelect.innerHTML =
+                                        '<option value="">No Kelurahan found</option>';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                kelurahanSelect.innerHTML =
+                                    '<option value="">Error loading data</option>';
+                            });
+                    }
+                });
+
+                // Trigger change event if kecamatan is already selected
+                if (kecamatanSelect.value) {
+                    kecamatanSelect.dispatchEvent(new Event('change'));
+                }
+            }
+        });
+    </script>
+
+
 </body>
 
 </html>
