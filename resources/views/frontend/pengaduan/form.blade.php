@@ -708,7 +708,7 @@
     </header>
 
     <!-- Form Pengaduan Section -->
-    <section class="form-section section-padding">
+    <section class="my-3 pb-5 form-section section-padding">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12 text-center">
@@ -720,63 +720,49 @@
 
             <div class="row">
                 <div class="col-lg-8 mx-auto" data-aos="fade-up" data-aos-delay="200">
-                    <div class="form-card">
-                        <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-
-                            <!-- Data Pelapor -->
-                            <div class="mb-4">
-                                <h4 class="mb-3"><i class="bi bi-person-circle me-2"></i> Data Pelapor</h4>
-                                <hr>
-
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label for="nama_pelapor" class="form-label">Nama Lengkap <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text"
-                                            class="form-control @error('nama_pelapor') is-invalid @enderror"
-                                            id="nama_pelapor" name="nama_pelapor" value="{{ old('nama_pelapor') }}"
-                                            required>
-                                        @error('nama_pelapor')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="email_pelapor" class="form-label">Email</label>
-                                        <input type="email"
-                                            class="form-control @error('email_pelapor') is-invalid @enderror"
-                                            id="email_pelapor" name="email_pelapor" value="{{ old('email_pelapor') }}">
-                                        @error('email_pelapor')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="nomor_telepon" class="form-label">Nomor Telepon <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text"
-                                            class="form-control @error('nomor_telepon') is-invalid @enderror"
-                                            id="nomor_telepon" name="nomor_telepon" value="{{ old('nomor_telepon') }}"
-                                            required>
-                                        @error('nomor_telepon')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="alamat_pelapor" class="form-label">Alamat <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text"
-                                            class="form-control @error('alamat_pelapor') is-invalid @enderror"
-                                            id="alamat_pelapor" name="alamat_pelapor" value="{{ old('alamat_pelapor') }}"
-                                            required>
-                                        @error('alamat_pelapor')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+                    <!-- User Info Card -->
+                    @auth
+                        <div class="user-info-card">
+                            <h5><i class="bi bi-person-check-fill"></i> Informasi Pelapor</h5>
+                            <p><strong>Nama:</strong> {{ Auth::user()->name }}</p>
+                            <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+                            @if (Auth::user()->nomor_telepon)
+                                <p><strong>Nomor Telepon:</strong> {{ Auth::user()->nomor_telepon }}</p>
+                            @endif
+                            <div class="alert alert-info mt-3 mb-0">
+                                <small><i class="bi bi-info-circle me-1"></i> Pengaduan akan menggunakan data profil Anda yang
+                                    sudah terdaftar.</small>
                             </div>
+                        </div>
+                    @else
+                        <div class="login-required-card">
+                            <i class="bi bi-info-circle"></i>
+                            <h5>Login Diperlukan untuk Mengirim Pengaduan</h5>
+                            <p>Anda dapat melihat formulir pengaduan, namun untuk mengirimkan pengaduan Anda perlu login
+                                terlebih dahulu.</p>
+                            <div>
+                                <a href="{{ route('login') }}" class="btn btn-primary me-2">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                                </a>
+                                <a href="{{ route('register') }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-person-plus me-1"></i> Register
+                                </a>
+                            </div>
+                        </div>
+                    @endauth
+
+                    <div class="form-card">
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data"
+                            id="pengaduanForm">
+                            @csrf
 
                             <!-- Lokasi Pengaduan -->
                             <div class="mb-4">
@@ -823,6 +809,16 @@
                                             value="{{ old('lokasi_kejadian') }}"
                                             placeholder="Contoh: Jl. Sultan Babullah No.10, RT 02/RW 03" required>
                                         @error('lokasi_kejadian')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="alamat_kejadian" class="form-label">Alamat Lengkap Kejadian <span
+                                                class="text-danger">*</span></label>
+                                        <textarea class="form-control @error('alamat_kejadian') is-invalid @enderror" id="alamat_kejadian"
+                                            name="alamat_kejadian" rows="2" placeholder="Deskripsikan alamat lengkap lokasi kejadian" required>{{ old('alamat_kejadian') }}</textarea>
+                                        @error('alamat_kejadian')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -881,11 +877,26 @@
                                         @enderror
                                     </div>
 
+                                    <div class="col-md-12">
+                                        <label for="nomor_telepon" class="form-label">Nomor Telepon yang Bisa
+                                            Dihubungi</label>
+                                        <input type="text"
+                                            class="form-control @error('nomor_telepon') is-invalid @enderror"
+                                            id="nomor_telepon" name="nomor_telepon"
+                                            value="{{ old('nomor_telepon', Auth::check() ? Auth::user()->nomor_telepon : '') }}">
+                                        <small class="form-text text-muted">Nomor yang dapat dihubungi jika diperlukan
+                                            informasi tambahan.</small>
+                                        @error('nomor_telepon')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-12">
                                         <label for="judul" class="form-label">Judul Pengaduan <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control @error('judul') is-invalid @enderror"
-                                            id="judul" name="judul" value="{{ old('judul') }}" required>
+                                            id="judul" name="judul" value="{{ old('judul') }}"
+                                            placeholder="Ringkasan singkat tentang pengaduan Anda" required>
                                         @error('judul')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -895,7 +906,7 @@
                                         <label for="deskripsi" class="form-label">Deskripsi Pengaduan <span
                                                 class="text-danger">*</span></label>
                                         <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi"
-                                            rows="5" required>{{ old('deskripsi') }}</textarea>
+                                            rows="5" placeholder="Jelaskan detail kejadian, kapan terjadi, dan dampaknya" required>{{ old('deskripsi') }}</textarea>
                                         <div class="form-text">Berikan detail kejadian, kapan terjadi, dan dampak yang
                                             ditimbulkan.</div>
                                         @error('deskripsi')
@@ -931,35 +942,11 @@
 
                             <div class="text-center mt-4">
                                 <button type="submit" class="btn btn-primary btn-lg px-5 py-3"
-                                    style="border-radius: 25px; font-weight: 600;">
+                                    style="border-radius: 25px; font-weight: 600;" id="submitButton">
                                     <i class="bi bi-send-fill me-2"></i> Kirim Pengaduan
                                 </button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Statistics Pengaduan -->
-            <div class="row g-4 mt-5 justify-content-center">
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="stats-card">
-                        <div class="stats-number">547</div>
-                        <div class="stats-label">Total Pengaduan</div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="stats-card">
-                        <div class="stats-number">432</div>
-                        <div class="stats-label">Pengaduan Selesai</div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="stats-card">
-                        <div class="stats-number">93%</div>
-                        <div class="stats-label">Tingkat Penyelesaian</div>
                     </div>
                 </div>
             </div>
@@ -972,7 +959,8 @@
             <div class="row mb-5">
                 <div class="col-12 text-center">
                     <h2 class="section-title" data-aos="fade-up">Tata Cara Pengaduan</h2>
-                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Ikuti langkah-langkah berikut
+                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Ikuti langkah-langkah
+                        berikut
                         untuk melaporkan gangguan ketertiban</p>
                 </div>
             </div>
@@ -984,7 +972,8 @@
                             <span class="informasi-number">1</span>
                             <div>
                                 <h5>Isi Form Pengaduan</h5>
-                                <p>Lengkapi form pengaduan online dengan identitas yang valid dan detail gangguan ketertiban
+                                <p>Lengkapi form pengaduan online dengan identitas yang valid dan detail gangguan
+                                    ketertiban
                                     yang terjadi secara lengkap dan jelas.</p>
                             </div>
                         </div>
@@ -997,7 +986,8 @@
                             <span class="informasi-number">2</span>
                             <div>
                                 <h5>Terima Kode Pengaduan</h5>
-                                <p>Setelah mengirim pengaduan, Anda akan menerima kode pengaduan yang dapat digunakan untuk
+                                <p>Setelah mengirim pengaduan, Anda akan menerima kode pengaduan yang dapat
+                                    digunakan untuk
                                     melacak status pengaduan Anda.</p>
                             </div>
                         </div>
@@ -1010,7 +1000,8 @@
                             <span class="informasi-number">3</span>
                             <div>
                                 <h5>Verifikasi Pengaduan</h5>
-                                <p>Tim kami akan melakukan verifikasi dan validasi terhadap pengaduan yang masuk, termasuk
+                                <p>Tim kami akan melakukan verifikasi dan validasi terhadap pengaduan yang masuk,
+                                    termasuk
                                     mengecek kebenaran informasi yang diberikan.</p>
                             </div>
                         </div>
@@ -1023,7 +1014,8 @@
                             <span class="informasi-number">4</span>
                             <div>
                                 <h5>Tindak Lanjut</h5>
-                                <p>Pengaduan yang telah diverifikasi akan ditindaklanjuti oleh petugas SATPOL-PP atau
+                                <p>Pengaduan yang telah diverifikasi akan ditindaklanjuti oleh petugas SATPOL-PP
+                                    atau
                                     instansi terkait sesuai dengan jenis pengaduan.</p>
                             </div>
                         </div>
@@ -1036,7 +1028,8 @@
                             <span class="informasi-number">5</span>
                             <div>
                                 <h5>Pantau Status</h5>
-                                <p>Pantau perkembangan pengaduan Anda melalui fitur "Cek Status Pengaduan" dengan memasukkan
+                                <p>Pantau perkembangan pengaduan Anda melalui fitur "Cek Status Pengaduan" dengan
+                                    memasukkan
                                     kode pengaduan yang telah diberikan.</p>
                             </div>
                         </div>
@@ -1049,7 +1042,8 @@
                             <span class="informasi-number">6</span>
                             <div>
                                 <h5>Penyelesaian</h5>
-                                <p>Setelah ditangani, tim akan memberikan laporan penyelesaian dan dokumentasi tindakan yang
+                                <p>Setelah ditangani, tim akan memberikan laporan penyelesaian dan dokumentasi
+                                    tindakan yang
                                     telah dilakukan sebagai bukti penanganan.</p>
                             </div>
                         </div>
@@ -1065,7 +1059,8 @@
             <div class="row mb-5">
                 <div class="col-12 text-center">
                     <h2 class="section-title" data-aos="fade-up">Jenis Pengaduan Ketertiban</h2>
-                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Kategori-kategori gangguan
+                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Kategori-kategori
+                        gangguan
                         ketertiban yang dapat dilaporkan melalui sistem pengaduan ini</p>
                 </div>
             </div>
@@ -1077,7 +1072,8 @@
                             <i class="bi bi-shield-exclamation"></i>
                         </div>
                         <h4 class="kategori-title">Keamanan</h4>
-                        <p>Gangguan keamanan seperti premanisme, pungutan liar, atau aktivitas mencurigakan yang mengganggu
+                        <p>Gangguan keamanan seperti premanisme, pungutan liar, atau aktivitas mencurigakan yang
+                            mengganggu
                             ketertiban umum.</p>
                     </div>
                 </div>
@@ -1088,7 +1084,8 @@
                             <i class="bi bi-trash"></i>
                         </div>
                         <h4 class="kategori-title">Kebersihan</h4>
-                        <p>Masalah kebersihan seperti penumpukan sampah, pembuangan sampah sembarangan, atau pencemaran
+                        <p>Masalah kebersihan seperti penumpukan sampah, pembuangan sampah sembarangan, atau
+                            pencemaran
                             lingkungan.</p>
                     </div>
                 </div>
@@ -1099,7 +1096,8 @@
                             <i class="bi bi-volume-up"></i>
                         </div>
                         <h4 class="kategori-title">Kebisingan</h4>
-                        <p>Gangguan suara atau kebisingan yang mengganggu kenyamanan seperti dari tempat hiburan, bengkel,
+                        <p>Gangguan suara atau kebisingan yang mengganggu kenyamanan seperti dari tempat hiburan,
+                            bengkel,
                             atau aktivitas warga.</p>
                     </div>
                 </div>
@@ -1110,7 +1108,8 @@
                             <i class="bi bi-p-circle"></i>
                         </div>
                         <h4 class="kategori-title">Parkir Liar</h4>
-                        <p>Kendaraan yang diparkir sembarangan, menghalangi jalan umum, trotoar, atau tempat yang tidak
+                        <p>Kendaraan yang diparkir sembarangan, menghalangi jalan umum, trotoar, atau tempat yang
+                            tidak
                             diperuntukkan untuk parkir.</p>
                     </div>
                 </div>
@@ -1121,7 +1120,8 @@
                             <i class="bi bi-shop"></i>
                         </div>
                         <h4 class="kategori-title">Pedagang Kaki Lima</h4>
-                        <p>PKL yang berjualan di tempat yang tidak diizinkan, menghalangi akses publik, atau mengganggu
+                        <p>PKL yang berjualan di tempat yang tidak diizinkan, menghalangi akses publik, atau
+                            mengganggu
                             ketertiban umum.</p>
                     </div>
                 </div>
@@ -1132,7 +1132,8 @@
                             <i class="bi bi-brush"></i>
                         </div>
                         <h4 class="kategori-title">Vandalisme</h4>
-                        <p>Perusakan fasilitas umum, coretan di tempat umum, atau tindakan merusak properti publik lainnya.
+                        <p>Perusakan fasilitas umum, coretan di tempat umum, atau tindakan merusak properti publik
+                            lainnya.
                         </p>
                     </div>
                 </div>
@@ -1147,7 +1148,8 @@
             <div class="row mb-5">
                 <div class="col-12 text-center">
                     <h2 class="section-title" data-aos="fade-up">Cek Status Pengaduan</h2>
-                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Pantau perkembangan pengaduan
+                    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Pantau perkembangan
+                        pengaduan
                         yang telah Anda laporkan dengan memasukkan kode pengaduan</p>
                 </div>
             </div>
@@ -1170,7 +1172,8 @@
                                     @error('kode_pengaduan')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    <div class="form-text">Kode pengaduan dikirimkan ke email atau ditampilkan setelah
+                                    <div class="form-text">Kode pengaduan dikirimkan ke email atau ditampilkan
+                                        setelah
                                         pengaduan berhasil dikirim.</div>
                                 </div>
                                 <div class="text-center">

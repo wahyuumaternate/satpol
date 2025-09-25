@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
+use App\Models\Tanggapan;
 use App\Models\Kelurahan;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -21,17 +23,17 @@ class FrontendPengaduanController extends Controller
         $kelurahans = Kelurahan::with('kecamatan')->get();
         $kecamatans = Kecamatan::all();
 
-        // Ambil 1 pengaduan dengan status 'proses'
-        $pengaduanProses = Pengaduan::with('kelurahan.kecamatan')
+        // Ambil 1 pengaduan dengan status 'proses' yang memiliki tanggapan
+        $pengaduanProses = Pengaduan::with(['kelurahan.kecamatan', 'tanggapan'])
             ->where('status', 'proses')
-            ->whereNotNull('tanggapan')  // Pastikan ada tanggapan
+            ->whereHas('tanggapan') // Pastikan ada tanggapan
             ->latest()
             ->first();
 
-        // Ambil 1 pengaduan dengan status 'selesai'
-        $pengaduanSelesai = Pengaduan::with('kelurahan.kecamatan')
+        // Ambil 1 pengaduan dengan status 'selesai' yang memiliki tanggapan
+        $pengaduanSelesai = Pengaduan::with(['kelurahan.kecamatan', 'tanggapan'])
             ->where('status', 'selesai')
-            ->whereNotNull('tanggapan')  // Pastikan ada tanggapan
+            ->whereHas('tanggapan') // Pastikan ada tanggapan
             ->latest()
             ->first();
 
@@ -51,23 +53,29 @@ class FrontendPengaduanController extends Controller
         $kelurahans = Kelurahan::where('kecamatan_id', $request->kecamatan_id)->get();
         return response()->json($kelurahans);
     }
+
     /**
      * Menyimpan pengaduan baru dari frontend
      */
     public function store(Request $request)
     {
+        // Validasi apakah user sudah login
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Anda harus login terlebih dahulu untuk membuat pengaduan.');
+        }
+
         $validator = Validator::make($request->all(), [
             'kelurahan_id' => 'required|exists:kelurahans,id',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'kategori_ketertiban' => 'required|in:keamanan,kebersihan,kebisingan,parkir_liar,pedagang_kaki_lima,vandalisme,lainnya',
             'lokasi_kejadian' => 'required|string|max:255',
+            'alamat_kejadian' => 'required|string',
             'waktu_kejadian' => 'required|date',
-            'nama_pelapor' => 'required|string|max:255',
-            'email_pelapor' => 'nullable|email|max:255',
-            'nomor_telepon' => 'required|string|max:15',
-            'alamat_pelapor' => 'required|string',
+            'nomor_telepon' => 'nullable|string|max:15',
             'foto_bukti' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'setuju' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -77,8 +85,10 @@ class FrontendPengaduanController extends Controller
                 ->withInput();
         }
 
-        $data = $request->except(['foto_bukti']);
+        $data = $request->except(['foto_bukti', 'setuju']);
 
+        // Tambahkan user_id dari user yang sedang login
+        $data['user_id'] = Auth::id();
 
         // Set status default
         $data['status'] = 'menunggu';
@@ -92,14 +102,9 @@ class FrontendPengaduanController extends Controller
 
         $pengaduan = Pengaduan::create($data);
 
-        // Kirim email konfirmasi jika email pelapor tersedia
-        if ($pengaduan->email_pelapor) {
-            // Mail::to($pengaduan->email_pelapor)->send(new PengaduanSubmitted($pengaduan));
-        }
-
-        return redirect()->route('pengaduan.form', ['kode' => $pengaduan->kode_pengaduan]);
+        return redirect()->route('pengaduan.sukses', ['kode' => $pengaduan->kode_pengaduan])
+            ->with('success', 'Pengaduan berhasil dikirim. Kode pengaduan Anda adalah: ' . $pengaduan->kode_pengaduan);
     }
-
 
     /**
      * Menampilkan halaman sukses setelah submit pengaduan
@@ -142,7 +147,7 @@ class FrontendPengaduanController extends Controller
                 ->withInput();
         }
 
-        $pengaduan = Pengaduan::with('kelurahan.kecamatan')
+        $pengaduan = Pengaduan::with(['kelurahan.kecamatan', 'tanggapan.petugas'])
             ->where('kode_pengaduan', $request->kode_pengaduan)
             ->firstOrFail();
 
@@ -150,34 +155,20 @@ class FrontendPengaduanController extends Controller
     }
 
     /**
-     * Menampilkan history pengaduan (opsional - jika dibutuhkan)
+     * Menampilkan history pengaduan untuk user yang sudah login
      */
-    public function history(Request $request)
+    public function history()
     {
-        // Validasi parameter pencarian email/nomor telepon
-        $validator = Validator::make($request->all(), [
-            'email' => 'required_without:nomor_telepon|nullable|email',
-            'nomor_telepon' => 'required_without:email|nullable',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->route('pengaduan.cek-status')
-                ->withErrors($validator)
-                ->withInput();
+        // Check if user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', 'Anda harus login untuk melihat riwayat pengaduan.');
         }
 
-        $query = Pengaduan::query();
-
-        if ($request->filled('email')) {
-            $query->where('email_pelapor', $request->email);
-        }
-
-        if ($request->filled('nomor_telepon')) {
-            $query->where('nomor_telepon', $request->nomor_telepon);
-        }
-
-        $pengaduans = $query->orderBy('created_at', 'desc')->paginate(10);
+        $pengaduans = Pengaduan::where('user_id', Auth::id())
+            ->with(['kelurahan', 'tanggapan'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('frontend.pengaduan.history', compact('pengaduans'));
     }
