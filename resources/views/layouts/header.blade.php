@@ -63,9 +63,15 @@
                 </a>
                 <span class="separator">|</span>
                 @if (Auth::check())
-                    <a class="btn-link" href="{{ route('dashboard') }}">
-                        <i class="fas fa-tachometer-alt"></i> DASHBOARD
-                    </a>
+                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'petugas')
+                        <a class="btn-link" href="{{ route('dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> DASHBOARD
+                        </a>
+                    @else
+                        <a class="btn-link" href="{{ route('masyarakat.dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i> DASHBOARD
+                        </a>
+                    @endif
                 @else
                     <a class="btn-link" href="{{ route('login') }}">
                         <i class="fas fa-sign-in-alt"></i> LOGIN

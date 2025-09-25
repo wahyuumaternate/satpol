@@ -37,8 +37,8 @@
 
 <body>
 
-    @include('backend.layouts.header')
-    @include('backend.layouts.sidebar')
+    @include('masyarakat.layouts.header')
+    @include('masyarakat.layouts.sidebar')
 
     <main id="main" class="main">
 

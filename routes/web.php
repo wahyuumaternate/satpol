@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\FrontendPengaduanController;
+use App\Http\Controllers\MasyarakatController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\OrganizationProfileController;
@@ -116,4 +117,56 @@ Route::middleware(['auth', 'role:masyarakat'])->group(function () {
     Route::post('/pengaduan/proses-status', [FrontendPengaduanController::class, 'prosesStatus'])
         ->name('pengaduan.proses-status');
 });
+
+Route::middleware(['auth'])->group(function () {
+
+    // Dashboard Masyarakat
+    Route::prefix('masyarakat')->name('masyarakat.')->group(function () {
+
+        // Dashboard utama
+        Route::get('/dashboard', [MasyarakatController::class, 'dashboard'])->name('dashboard');
+
+        // Pengaduan Routes
+        Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
+            // Daftar pengaduan user
+            Route::get('/', [MasyarakatController::class, 'pengaduan'])->name('index');
+
+            // Form buat pengaduan baru
+            Route::get('/create', [MasyarakatController::class, 'createPengaduan'])->name('create');
+
+            // Store pengaduan baru
+            Route::post('/store', [MasyarakatController::class, 'storePengaduan'])->name('store');
+
+            // Detail pengaduan
+            Route::get('/{id}', [MasyarakatController::class, 'showPengaduan'])->name('show');
+
+            // Edit pengaduan (hanya status menunggu)
+            Route::get('/{id}/edit', [MasyarakatController::class, 'editPengaduan'])->name('edit');
+
+            // Update pengaduan
+            Route::put('/{id}', [MasyarakatController::class, 'updatePengaduan'])->name('update');
+
+            // Hapus pengaduan (hanya status menunggu)
+            Route::delete('/{id}', [MasyarakatController::class, 'destroyPengaduan'])->name('destroy');
+
+            // Export pengaduan user
+            Route::get('/export/data', [MasyarakatController::class, 'export'])->name('export');
+        });
+
+    
+
+        // API Routes untuk AJAX calls
+        Route::prefix('api')->name('api.')->group(function () {
+            // Get statistik dashboard
+            Route::get('/stats', [MasyarakatController::class, 'getStats'])->name('stats');
+
+            // Get detail pengaduan
+            Route::get('/pengaduan/{id}', [MasyarakatController::class, 'getPengaduanDetail'])->name('pengaduan.detail');
+
+            // Get kelurahan berdasarkan kecamatan
+            Route::post('/kelurahan', [MasyarakatController::class, 'getKelurahan'])->name('kelurahan');
+        });
+    });
+});
+
 require __DIR__ . '/auth.php';
